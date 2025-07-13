@@ -1,14 +1,13 @@
 import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
-public class Keyboard {
+public class Keyboard implements KeyListener {
+
     private static Keyboard instance;
     private final boolean[] keys;
 
     private Keyboard() {
         keys = new boolean[256];
-    }
-
-    public void keyTyped(KeyEvent e) {
     }
 
     public static Keyboard getInstance() {
@@ -18,23 +17,29 @@ public class Keyboard {
         return instance;
     }
 
-    public void KeyPressed(KeyEvent e) {
-        if (e.getKeyCode() >= 0 && e.getKeyCode() < keys.length) {
-            keys[e.getKeyCode()] = true;
+    public boolean keyDown(int keyCode) {
+        if (keyCode < 0 || keyCode >= keys.length) return false;
+        return keys[keyCode];
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        int code = e.getKeyCode();
+        if (code >= 0 && code < keys.length) {
+            keys[code] = true;
         }
     }
 
-    public void KeyReleased(KeyEvent e) {
-        if (e.getKeyCode() >= 0 && e.getKeyCode() < keys.length) {
-            keys[e.getKeyCode()] = false;
+    @Override
+    public void keyReleased(KeyEvent e) {
+        int code = e.getKeyCode();
+        if (code >= 0 && code < keys.length) {
+            keys[code] = false;
         }
     }
 
-    public boolean keyDown(int key) {
-        if (key >= 0 && key < keys.length) {
-            return keys[key];
-        }
-
-        return false;
+    @Override
+    public void keyTyped(KeyEvent e) {
+        // Not needed, but must be implemented
     }
 }

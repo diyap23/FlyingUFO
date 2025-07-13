@@ -21,7 +21,7 @@ public class UFO {
     private final Keyboard keyboard;
 
     public UFO() {
-        imagePath = "FlyingUFO/lib/UFO.png";
+        imagePath = "lib/UFO.png";
 
         x = 100;
         y = 150;
@@ -84,6 +84,7 @@ public class UFO {
 
     }
 
+    
     // access methods
     public int getX() {
         return x;

@@ -13,51 +13,59 @@ public class Render {
     public AffineTransform transform;
     private static final HashMap<String, Image> cache = new HashMap<>();
 
-    public Render() {}
+    public Render() {
+    }
 
     public Render(int _x, int _y, String imagePath) {
         Toolkit.getDefaultToolkit().sync();
 
-        x=_x;
-        y=_y;
+        x = _x;
+        y = _y;
 
         image = loadImage(imagePath);
     }
 
-    public static Image loadImage(String path){
+    public static Image loadImage(String path) {
         Image image = null;
 
-        if(cache.containsKey(path)){
+        if (cache.containsKey(path)) {
             return cache.get(path);
         }
 
-        try{
-            image=ImageIO.read(new File(path));
-            if(!cache.containsKey(path)){
+        try {
+            image = ImageIO.read(new File(path));
+            if (!cache.containsKey(path)) {
                 cache.put(path, image);
             }
-        }
-        catch(IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
 
+        if (image != null) {
+            int desiredWidth = 45; // or whatever size fits your game
+            int desiredHeight = 32; // match UFO width/height
+
+            Image scaledImage = image.getScaledInstance(desiredWidth, desiredHeight, Image.SCALE_SMOOTH);
+            return scaledImage;
+        }
         return image;
+
     }
 
-    public int getX(){
+    public int getX() {
         return x;
     }
 
-    public int getY(){
+    public int getY() {
         return y;
     }
 
-    public void updateX(int newX){
+    public void updateX(int newX) {
         x = newX;
     }
 
-    public void updateY(int newY){
-        y=newY;
+    public void updateY(int newY) {
+        y = newY;
     }
 
 }

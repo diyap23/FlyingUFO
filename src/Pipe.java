@@ -5,10 +5,8 @@ public class Pipe {
     private int y;
     private int width;
     private int height;
-
     public int speed = 4;
     public String orientation;
-
     private Image image;
 
     public Pipe(String orientation) {
@@ -16,60 +14,76 @@ public class Pipe {
         reset();
     }
 
+    /**
+     * Resets the pipes
+     */
     public void reset() {
-        width = 45;
-        height = 400;
-        x = GamePlayer.WIDTH;
-        if (orientation.equals("down")) {
-            y = -(int) (Math.random() * 175) - height / 2;
-        }
+    width = 66;
+    height = 400;
+    x = App.WIDTH + 2;
+    if (orientation.equals("bottom")) {
+        y = -(int)(Math.random() * 175) - height / 2;
+    } else if (orientation.equals("top")) {
+        y = App.HEIGHT - (int)(Math.random() * 175) - height / 2;
     }
+}
 
+    /**
+     * Updates the pipe
+     */
     public void update() {
-        x -= speed;
+        x -= speed; // minus moves to left
     }
 
-    public boolean collide(int _x, int _y, int _width, int _height){
+    /**
+     * Check if collision has occurred, returns a boolean
+     */
+    public boolean collides(int _x, int _y, int _width, int _height) {
+
         int margin = 2;
 
-        if(_x + _width - margin > x && _x + margin < x + width) {
+        if (_x + _width - margin > x && _x + margin < x + width) {
 
-            if(orientation.equals("down") && _y < y + height) {
+            if (orientation.equals("bottom") && _y < y + height) {
                 return true;
-            } else return orientation.equals("up") && _y + height > y;
+            } else if (orientation.equals("top") && _y + _height > y) {
+                return true;
+            }
         }
 
         return false;
     }
 
-    public Render getRender(){
+    /**
+     * Get rendered Pipe image
+     */
+    public Render getRender() {
         Render r = new Render();
-
         r.updateX(x);
         r.updateY(y);
 
-        if(image == null){
-            image = Render.loadImage("FlyingUFO/lib/" + orientation + "Pipe.png");
+        if (image == null) {
+            image = Render.loadImage("lib/pipe-" + orientation + ".png");
         }
         r.image = image;
 
         return r;
     }
 
-    public int getX(){
+    // access methods
+    public int getX() {
         return x;
     }
 
-    public int getY(){
-       return y;
+    public int getY() {
+        return y;
     }
 
-    public void updateY(int newY){
+    public void updateY(int newY) {
         y = newY;
     }
 
-    public int getHeight(){
+    public int getHeight() {
         return height;
     }
-
 }
